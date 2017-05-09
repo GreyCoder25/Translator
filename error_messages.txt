@@ -1,0 +1,12 @@
+1: keyword 'PROGRAM' expected
+2: ';' expected
+3: '.' expected
+4: keyword 'DEFFUNC' expected
+5: keyword 'SIN' expected
+6: '=' expected
+7: '\' expected
+8: ',' expected
+9: identifier expected
+10: constant expected
+11: keyword 'BEGIN' expected
+12: keyword 'END' expected

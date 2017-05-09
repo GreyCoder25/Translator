@@ -1,0 +1,11 @@
+PROGRAM TEST1;
+
+
+FUNC1 = SIN \ 29, 38;
+FUNC2 = SIN \ 2342, 89;
+FUNC3 = SIN \ 43, 978;
+
+    (*some comments*)
+BEGIN
+
+END.(*some another comment **** end of the comment*)

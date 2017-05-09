@@ -1,0 +1,8 @@
+PROGRAM TEST1;
+
+DEFFUNC
+
+    (*some comments*)
+BEGIN
+
+END.(*some another comment **** end of the comment*)

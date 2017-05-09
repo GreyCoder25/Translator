@@ -1,0 +1,23 @@
+1. <signal-program> --> <program>
+2. <program> --> PROGRAM <procedure-identifier> ; <block> .
+3. <block> --> <declarations> BEGIN <statements-list> END
+4. <declarations> --> <math-function-declaration>
+5. <math-function-declaration> --> DEFFUNC <function-list>
+6. <function-list> --> <function> <function-list>
+7. <function> --> <function-identifier> = SIN<function-characteristic> ;
+8. <function-characteristic> --> \ <unsigned-integer> , <unsigned-integer>
+9. <procedure-identifier> --> <identifier>
+10. <function-identifier> --> <identifier>
+
+
+
+1. <program>
+2. PROGRAM <procedure-identifier> ;<block>.
+3. <declarations> BEGIN <statements-list> END
+4. <math-function-declaration>
+5. DEFFUNC <function-list>
+6. <function> <function-list>
+7. <function-identifier> = SIN<function-characteristic> ;
+8. \ <unsigned-integer> , <unsigned-integer>
+9. <identifier>
+10. <identifier>
