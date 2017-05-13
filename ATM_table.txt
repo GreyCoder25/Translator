@@ -1,29 +1,44 @@
-SP P T F
-P PROGRAM N F
- PI N F
+<signal-program> <program> T F
+<program> PROGRAM N F
+ <procedure-identifier> N F
  ; N F
- BL N F
+ <block> N F
  . T F
-BL DL N F
+<block> <declarations> N F
  BEGIN N F
+ <statements-list> N F
  END T F
-DL MFDL T F
-MFDL DEFFUNC N T
- FL T F
-FL F N T
- FL T F
-F FI N F
+<declarations> <math-function-declaration> N F
+ <label-declarations> T F
+<statements-list> <empty> T T
+<math-function-declaration> DEFFUNC N +2
+ <function-list> T F
+ <empty> T T
+<label-declarations> LABEL N F
+ <labels-list> N F
+ ; T F
+<function-list> <function> N +2
+ <function-list> T F
+ <empty> T T
+<labels-list> <label> N +2
+ <labels-list> T F
+ <empty> T T
+<function> <function-identifier> N F
  = N F+
  SIN N F+
- FC N F+
+ <function-characteristic> N F+
  ; T F+
-FC \ N F
- UI N F
+<label> <unsigned-integer> N F
+ <tmp> T F
+<tmp> , T N
+ <empty> T T
+<function-characteristic> \ N F
+ <unsigned-integer> N F
  , N F
- UI T F
-PI I T F
-FI I T F
-UI 500 T F
-I 1000 T F
-START SP N ERROR
+ <unsigned-integer> T F
+<procedure-identifier> <identifier> T F
+<function-identifier> <identifier> T F
+<unsigned-integer> 500 T F
+<identifier> 1000 T F
+START <signal-program> N ERROR
  # OK ERROR

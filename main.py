@@ -8,4 +8,4 @@ err_file = 'error_messages.txt'
 grammar_file = 'grammar.txt'
 
 lexer.scan(inp_file, outp_file)
-parser.parse(outp_file, atm_file, err_file, grammar_file)
+parser.parse(outp_file, atm_file, err_file)

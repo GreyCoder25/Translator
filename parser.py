@@ -1,7 +1,7 @@
 import tables
 from parse_tree import *
 
-def parse(lex_file, atm_file, err_file, grammar_file):
+def parse(lex_file, atm_file, err_file):
 
     def lex_code(lexem):
         if tables.in_key_words_table(lexem):
@@ -27,7 +27,6 @@ def parse(lex_file, atm_file, err_file, grammar_file):
                 lex_lines.append(lex_info[0])
                 lex_columns.append(lex_info[1])
                 lex_codes.append(lex_info[2])
-    # print(lex_codes)
 
     addresses = {}
     rule_numbers = {}
@@ -59,35 +58,39 @@ def parse(lex_file, atm_file, err_file, grammar_file):
     call_stack = []
 
     lex_index = 0
-    code_tree = ParseTree(grammar_file)
+    code_tree = ParseTree()
     error_flag = False
     error_code = 0
     while True:
-        # print(lex_codes[lex_index])
         if col == OP_CODE:
-            # print("line is %s, column = %s" % (ATM_table[line], col))
-            if ATM_table[line][ADDR] in addresses and ATM_table[line][ADDR] != 'START':
-                if ATM_table[line][col] in {'500', '1000'}:
-                    code_tree.add(lex_codes[lex_index])
+            # print(ATM_table[line], lex_codes[lex_index])
+            if ATM_table[line][col] in addresses:                           # ?
+                code_tree.add(ATM_table[line][col], 'non-terminal')
+            else:
+                if ATM_table[line][col] == '500' and corresponds(500, int(lex_codes[lex_index])):
+                    code_tree.add(tables.const_decode_table[int(lex_codes[lex_index])], 'terminal')
+                elif ATM_table[line][col] == '1000' and corresponds(1000, int(lex_codes[lex_index])):
+                    code_tree.add(tables.ident_decode_table[int(lex_codes[lex_index])], 'terminal')
                 else:
-                    code_tree.add(rule_numbers[ATM_table[line][ADDR]])
+                    code_tree.add(ATM_table[line][col], 'terminal')
 
-            if ATM_table[line][col] in addresses:
+            if ATM_table[line][col] in addresses:                           # ?
                 call_stack.append(line)
                 line = addresses[ATM_table[line][col]]
             else:
-                if (ATM_table[line][col] == '#' or
+                if ATM_table[line][col] == '<empty>':
+                    col = AF
+                elif (ATM_table[line][col] == '#' or
                 corresponds(lex_code(ATM_table[line][col]), int(lex_codes[lex_index]))):
-                    col = AT
                     lex_index += 1
+                    col = AT
                 else:
                     col = AF
         elif col == AT:
-            # print("line is %s, column = %s" % (ATM_table[line], col))
-
             if ATM_table[line][col] == 'N':
                 line += 1
                 col = OP_CODE
+                code_tree.level_up()
             elif ATM_table[line][col] == 'T':
                 line = call_stack.pop()
                 code_tree.level_up()
@@ -95,17 +98,21 @@ def parse(lex_file, atm_file, err_file, grammar_file):
                 print('Parsing completed successfully')
                 break
         elif col == AF:
-            # print("line is %s, column = %s" % (ATM_table[line], col))
-
             if ATM_table[line][col] =='N':
                 line += 1
                 col = OP_CODE
+                code_tree.delete_last()
+            elif ATM_table[line][col][0] == '+':
+                line += int(ATM_table[line][col][1:])
+                col = OP_CODE
+                code_tree.delete_last()
             elif ATM_table[line][col] == 'T':
                 line = call_stack.pop()
                 if not error_flag:
                     col = AT
                 else:
                     col = AF
+                code_tree.level_up()
             elif ATM_table[line][col] == 'ERROR':
                 print("Parsing didn't complete successfully, errors found")
                 break
@@ -118,8 +125,6 @@ def parse(lex_file, atm_file, err_file, grammar_file):
 
                 line = call_stack.pop()
                 code_tree.delete_last()
-
-
 
     code_tree.print()
 
@@ -143,8 +148,8 @@ def print_error_message(line, column, lexem, err_list):
         err_code = 8
     # elif lexem == '1000':
     #     err_code = 9
-    elif lexem == '500':
-        err_code = 10
+    # elif lexem == '500':
+    #     err_code = 10
     elif lexem == 'BEGIN':
         err_code = 11
     elif lexem == 'END':
