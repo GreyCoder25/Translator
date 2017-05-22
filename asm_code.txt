@@ -1,0 +1,12 @@
+data		SEGMENT
+ FUNC1	dd	0.00, 0.82, 0.93, 0.24, -0.66
+
+data		ENDS
+
+code		SEGMENT
+			ASSUME:	cs:code, ds:data
+begin:
+		mov	ax, 4c00h
+		int	21h
+code	ENDS
+		end	begin

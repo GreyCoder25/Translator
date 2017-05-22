@@ -17,6 +17,7 @@ def parse(lex_file, atm_file, err_file):
             return code1 == code2 - (code2 % 100)
         return code1 == code2
 
+    parse_result = True
     lex_codes = []
     lex_lines = []
     lex_columns = []
@@ -124,6 +125,7 @@ def parse(lex_file, atm_file, err_file):
                 if ATM_table[line][OP_CODE] not in addresses and error_message_flag:
                     print_error_message(lex_lines[lex_index], lex_columns[lex_index],
                     ATM_table[line][OP_CODE], error_messages)
+                    parse_result = False
                 if ATM_table[line][col] == 'F+':
                     error_flag = True
                 if not error_message_flag:
@@ -133,6 +135,7 @@ def parse(lex_file, atm_file, err_file):
                 code_tree.delete_last()
 
     # code_tree.print()
+    return (parse_result, code_tree)
 
 def print_error_message(line, column, lexem, err_list):
     err_code = 0

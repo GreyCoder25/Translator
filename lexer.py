@@ -93,9 +93,9 @@ def scan(inp_filename, outp_filename):
             outp_file.write(str(lex_code) + '\n')
 
     # test
-    print(tables.ident_table)
-    print(tables.const_table)
-    print(tables.key_words_table)
+    # print(tables.ident_table)
+    # print(tables.const_table)
+    # print(tables.key_words_table)
 
     inp_file.close()
     outp_file.close()
