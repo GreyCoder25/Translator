@@ -6,7 +6,7 @@ const_table = {}
 const_decode_table = {}
 const_code = 501
 
-key_words_table = {'PROGRAM': 401, 'BEGIN': 402, 'END': 403, 'DEFFUNC': 404, 'SIN': 405, 'LABEL': 406}
+key_words_table = {'PROGRAM': 401, 'BEGIN': 402, 'END': 403, 'DEFFUNC': 404, 'SIN': 405}
 key_word_code = 405
 
 def in_ident_table(word):

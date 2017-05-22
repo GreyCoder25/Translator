@@ -60,11 +60,11 @@ def parse(lex_file, atm_file, err_file):
     lex_index = 0
     code_tree = ParseTree()
     error_flag = False
+    error_message_flag = True
     error_code = 0
     while True:
         if col == OP_CODE:
-            # print(ATM_table[line], lex_codes[lex_index])
-            if ATM_table[line][col] in addresses:                           # ?
+            if ATM_table[line][col] in addresses:
                 code_tree.add(ATM_table[line][col], 'non-terminal')
             else:
                 if ATM_table[line][col] == '500' and corresponds(500, int(lex_codes[lex_index])):
@@ -74,9 +74,11 @@ def parse(lex_file, atm_file, err_file):
                 else:
                     code_tree.add(ATM_table[line][col], 'terminal')
 
-            if ATM_table[line][col] in addresses:                           # ?
+            if ATM_table[line][col] in addresses:
                 call_stack.append(line)
                 line = addresses[ATM_table[line][col]]
+                if ATM_table[line][AF] == 'N' or ATM_table[line][AF][0] == '+':
+                    error_message_flag = False
             else:
                 if ATM_table[line][col] == '<empty>':
                     col = AF
@@ -94,6 +96,8 @@ def parse(lex_file, atm_file, err_file):
             elif ATM_table[line][col] == 'T':
                 line = call_stack.pop()
                 code_tree.level_up()
+                if not error_message_flag:
+                    error_message_flag = True
             elif ATM_table[line][col] == 'OK':
                 print('Parsing completed successfully')
                 break
@@ -117,16 +121,18 @@ def parse(lex_file, atm_file, err_file):
                 print("Parsing didn't complete successfully, errors found")
                 break
             else:
-                if ATM_table[line][OP_CODE] not in addresses:
+                if ATM_table[line][OP_CODE] not in addresses and error_message_flag:
                     print_error_message(lex_lines[lex_index], lex_columns[lex_index],
                     ATM_table[line][OP_CODE], error_messages)
                 if ATM_table[line][col] == 'F+':
                     error_flag = True
+                if not error_message_flag:
+                    error_message_flag = True
 
                 line = call_stack.pop()
                 code_tree.delete_last()
 
-    code_tree.print()
+    # code_tree.print()
 
 def print_error_message(line, column, lexem, err_list):
     err_code = 0
@@ -146,10 +152,10 @@ def print_error_message(line, column, lexem, err_list):
         err_code = 7
     elif lexem == ',':
         err_code = 8
-    # elif lexem == '1000':
-    #     err_code = 9
-    # elif lexem == '500':
-    #     err_code = 10
+    elif lexem == '1000':
+        err_code = 9
+    elif lexem == '500':
+        err_code = 10
     elif lexem == 'BEGIN':
         err_code = 11
     elif lexem == 'END':

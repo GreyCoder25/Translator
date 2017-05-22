@@ -8,30 +8,19 @@
  BEGIN N F
  <statements-list> N F
  END T F
-<declarations> <math-function-declaration> N F
- <label-declarations> T F
+<declarations> <math-function-declaration> T F
 <statements-list> <empty> T T
 <math-function-declaration> DEFFUNC N +2
  <function-list> T F
  <empty> T T
-<label-declarations> LABEL N F
- <labels-list> N F
- ; T F
 <function-list> <function> N +2
  <function-list> T F
- <empty> T T
-<labels-list> <label> N +2
- <labels-list> T F
  <empty> T T
 <function> <function-identifier> N F
  = N F+
  SIN N F+
  <function-characteristic> N F+
  ; T F+
-<label> <unsigned-integer> N F
- <tmp> T F
-<tmp> , T N
- <empty> T T
 <function-characteristic> \ N F
  <unsigned-integer> N F
  , N F

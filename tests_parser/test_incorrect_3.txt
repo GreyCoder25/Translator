@@ -1,7 +1,8 @@
 PROGRAM TEST1;
 DEFFUNC
     FUNC1 = SIN \ 29, 38;
+    FUNC2 = SIN \ 89, 23;
+    FUNC3 = SIN \ 56, 77;
     (*some comments*)
-LABEL 156, 245, 343;
 BEGIN
 END.(*some another comment **** end of the comment*)
