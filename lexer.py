@@ -5,12 +5,14 @@ import tables
 def scan(inp_filename, outp_filename):
     inp_file = open(inp_filename, 'r')
     outp_file = open(outp_filename, 'w')
+    scanning_result = True
 
     ch = inp_file.read(1)
     line = 1
     column = 1
     if not ch:
         print('File is empty')
+        scanning_result = False
 
     while ch:
         buf = ''
@@ -68,6 +70,7 @@ def scan(inp_filename, outp_filename):
                     column += 1
                     if (not ch):
                         print('line %d, column %d *) expected but end of the file found' % (line, column))
+                        scanning_result = False
                         break
                     if (ch == '*'):
                         ch = inp_file.read(1)
@@ -79,8 +82,10 @@ def scan(inp_filename, outp_filename):
                             break
                         elif not ch:
                             print('line %d, column %d *) expected but end of the file found' % (line, column))
+                            scanning_result = False
         else:
             print('Invalid character: line %d column %d' % (line, column))
+            scanning_result = False
             suppress_output = True
             ch = inp_file.read(1)
             column += 1
@@ -94,6 +99,8 @@ def scan(inp_filename, outp_filename):
 
     inp_file.close()
     outp_file.close()
+
+    return scanning_result
 
 
 

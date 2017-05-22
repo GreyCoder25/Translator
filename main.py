@@ -7,5 +7,6 @@ atm_file = 'ATM_table.txt'
 err_file = 'error_messages.txt'
 
 
-lexer.scan(inp_file, outp_file)
-parser.parse(outp_file, atm_file, err_file)
+scanning_result = lexer.scan(inp_file, outp_file)
+if scanning_result:
+    parser.parse(outp_file, atm_file, err_file)
