@@ -1,7 +1,7 @@
 PROGRAM TEST1;
 DEFFUNC
-    FUNC1 = SIN \ 29, 5;
-    FUNC1 = SIN \ 34, 7;
+    FUNC1 = SIN \ 34754857, 5;
+    FUNC2 = SIN \ 34, 7;
     (*some comments*)
 BEGIN
 END.(*some another comment **** end of the comment*)

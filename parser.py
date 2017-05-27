@@ -134,7 +134,7 @@ def parse(lex_file, atm_file, err_file):
                 line = call_stack.pop()
                 code_tree.delete_last()
 
-    # code_tree.print()
+    code_tree.print()
     return (parse_result, code_tree)
 
 def print_error_message(line, column, lexem, err_list):
